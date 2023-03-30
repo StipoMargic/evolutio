@@ -2,23 +2,26 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use App\DTO\TodoInput;
+use App\DTO\TodoUpdateInput;
 use App\Repository\TodoRepository;
 use App\State\TodoPostProcessor;
 use App\State\TodoUpdateProcessor;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: TodoRepository::class),
+    ApiFilter(OrderFilter::class, properties: ['createdAt' => "DESC"]),
     ApiResource(
         normalizationContext: ['groups' => ['todo:read']],
-        denormalizationContext: ['groups' => ['todo:write']],
         paginationEnabled: false,
     ),
     GetCollection(),
@@ -28,20 +31,15 @@ use Symfony\Component\Serializer\Annotation\Groups;
         processor: TodoPostProcessor::class,
     ),
     Put(
-        input: TodoInput::class,
+        input: TodoUpdateInput::class,
         processor: TodoUpdateProcessor::class,
     ),
 ]
 class Todo {
-  #[
-      ApiProperty(identifier: true),
-      ORM\Id,
-      ORM\Column(type: 'string', unique: true),
-      ORM\GeneratedValue(strategy: 'CUSTOM'),
-      ORM\CustomIdGenerator(class: 'doctrine.uuid_generator'),
-      Groups(['todo:read'])
-  ]
-  private ?int $id = NULL;
+  #[ORM\Id]
+  #[ORM\Column(type: 'string', unique: true)]
+  #[Groups(["todo:read"])]
+  private string $id;
 
   #[
       ORM\Column(length: 255),
@@ -65,10 +63,11 @@ class Todo {
   private ?\DateTimeImmutable $updatedAt = NULL;
 
   public function __construct() {
+    $this->id = (string)Uuid::v4();
     $this->createdAt = new \DateTimeImmutable();
   }
 
-  public function getId(): ?int {
+  public function getId(): string {
     return $this->id;
   }
 
