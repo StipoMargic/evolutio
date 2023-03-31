@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const { connection } = require("../config/db");
 
-const Todo = connection.define("Todo", {
+const Todo = connection.define("todonode", {
   id: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
@@ -27,7 +27,8 @@ const Todo = connection.define("Todo", {
     allowNull: true,
   },
 }, {
-  timestamps: false
+  timestamps: false,
+  freezeTableName: true,
 });
 
 
