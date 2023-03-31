@@ -22,7 +22,7 @@ class TodoController extends AbstractController {
     $todo->setText($data['text']);
     $todo->setDone(false);
     $this->todoRepository->save($todo, true);
-    return $this->json($this->serializeTodo($todo));
+    return $this->json($this->serializeTodo($todo), 201);
   }
 
   #[Route('/api/todos', methods: ['GET'])]
