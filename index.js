@@ -20,7 +20,7 @@ const api = express.Router();
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-const port = 4000;
+const port = 8000;
 
 app.use("/api", api);
 
