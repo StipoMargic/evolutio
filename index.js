@@ -26,7 +26,7 @@ app.use("/api", api);
 
 api.get("/todos", async (req, res) => {
   if (req.query.order !== undefined) {
-    if (req.query.order !== "ASC" && req.query.order !== "DESC") {
+    if (req.query.order!== "ASC" && req.query.order !== "DESC") {
       res.status(400).json({ message: "Order must be ASC or DESC" });
       return;
     }
@@ -55,7 +55,7 @@ api.post("/todos", async (req, res) => {
   }
 
   const todo = await Todo.create({ text });
-  return res.json(todo);
+  return res.status(201).json(todo);
 });
 
 api.put("/todos/:id", async (req, res) => {
