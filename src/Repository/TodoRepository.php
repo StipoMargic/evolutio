@@ -40,20 +40,20 @@ class TodoRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Todo[] Returns an array of Todo objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('t.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * @return Todo[] Returns an array of Todo objects
+     */
+    public function findAllByOrder(?string $order = "DESC"): array
+    {
+        if ($order === "NULL") {
+            $order = "DESC";
+        }
+        return $this->createQueryBuilder('t')
+            ->orderBy('t.createdAt', $order)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
 //    public function findOneBySomeField($value): ?Todo
 //    {

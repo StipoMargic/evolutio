@@ -26,8 +26,9 @@ class TodoController extends AbstractController {
   }
 
   #[Route('/api/todos', methods: ['GET'])]
-  public function index() {
-    $todos = $this->todoRepository->findAll();
+  public function index(Request $request): JsonResponse {
+    $order = $request->query->get('order');
+    $todos = $this->todoRepository->findAllByOrder($order);
 
     $serializedTodos = [];
     foreach ($todos as $todo) {
