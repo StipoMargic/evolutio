@@ -24,6 +24,21 @@ const port = 4000;
 
 app.use("/api", api);
 
+api.get("/todos", async (req, res) => {
+  const todos = await Todo.findAll();
+  res.json(todos);
+});
+
+api.get("/todos/:id", async (req, res) => {
+  const todo = await Todo.findByPk(req.params.id);
+  if (!todo) {
+    res.status(404).json({ message: "Todo not found" });
+    return;
+  }
+  
+  res.json(todo);
+});
+
 app.listen(port, () => {
   console.log(`Todo app listening at http://localhost:${port}`);
 });
