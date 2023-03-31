@@ -1,6 +1,7 @@
 const { DataTypes } = require("sequelize");
+const { connection } = require("../config/db");
 
-const User = connection.define("Todo", {
+const Todo = connection.define("Todo", {
   id: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
@@ -17,13 +18,14 @@ const User = connection.define("Todo", {
     defaultValue: false,
   },
   createdAt: {
-    type: DataTypes.BOOLEAN,
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW,
     allowNull: false,
-    defaultValue: false,
   },
-  password: {
-    type: DataTypes.STRING,
-    allowNull: false,
+  updatedAt: {
+    type: DataTypes.DATE,
+    defaultValue: null,
+    allowNull: true,
   },
 });
 
