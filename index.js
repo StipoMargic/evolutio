@@ -26,7 +26,7 @@ app.use("/api", api);
 
 api.get("/todos", async (req, res) => {
   const todos = await Todo.findAll();
-  res.json(todos);
+  return res.json(todos);
 });
 
 api.get("/todos/:id", async (req, res) => {
@@ -36,7 +36,7 @@ api.get("/todos/:id", async (req, res) => {
     return;
   }
 
-  res.json(todo);
+  return res.json(todo);
 });
 
 api.post("/todos", async (req, res) => {
@@ -47,7 +47,24 @@ api.post("/todos", async (req, res) => {
   }
 
   const todo = await Todo.create({ text });
-  res.json(todo);
+  return res.json(todo);
+});
+
+api.put("/todos/:id", async (req, res) => {
+  const todo = await Todo.findByPk(req.params.id);
+  if (!todo) {
+    res.status(404).json({ message: "Todo not found" });
+    return;
+  }
+
+  const { text, done } = req.body;
+  if (text.trim() === "" || done === undefined) {
+    res.status(400).json({ message: "Text and done are required" });
+    return;
+  }
+
+  todo.update({ text, done, updatedAt: new Date() });
+  return res.json(todo);
 });
 
 app.listen(port, () => {

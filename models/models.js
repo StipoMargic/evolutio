@@ -24,9 +24,10 @@ const Todo = connection.define("Todo", {
   },
   updatedAt: {
     type: DataTypes.DATE,
-    defaultValue: null,
     allowNull: true,
   },
+}, {
+  timestamps: false
 });
 
 
