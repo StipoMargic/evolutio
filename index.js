@@ -35,7 +35,18 @@ api.get("/todos/:id", async (req, res) => {
     res.status(404).json({ message: "Todo not found" });
     return;
   }
-  
+
+  res.json(todo);
+});
+
+api.post("/todos", async (req, res) => {
+  const text = req.body.text;
+  if (!text) {
+    res.status(400).json({ message: "Text is required" });
+    return;
+  }
+
+  const todo = await Todo.create({ text });
   res.json(todo);
 });
 
