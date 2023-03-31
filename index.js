@@ -25,7 +25,15 @@ const port = 4000;
 app.use("/api", api);
 
 api.get("/todos", async (req, res) => {
-  const todos = await Todo.findAll();
+  if (req.query.order !== undefined) {
+    if (req.query.order !== "ASC" && req.query.order !== "DESC") {
+      res.status(400).json({ message: "Order must be ASC or DESC" });
+      return;
+    }
+  }
+  const todos = await Todo.findAll({
+    order: [["createdAt", req.query.order || "DESC"]],
+  });
   return res.json(todos);
 });
 
