@@ -1,3 +1,4 @@
 node_modules/
-/var/
-/vendor/
+/app/var/
+/app/vendor/
+/app/
