@@ -1,8 +1,11 @@
 const { Todo } = require('../models/models');
-const { createTodo, getAllTodos, getTodoById, updateTodo } = require('../controllers/todos');
+const {
+  createTodo,
+  getAllTodos,
+  getTodoById,
+} = require('../controllers/todos');
 
 jest.mock('../models/models');
-
 
 it('should return a 201 status code', async () => {
   const req = {
@@ -52,41 +55,55 @@ it('should return a 400 status code', async () => {
   await getAllTodos(req, res);
 
   expect(res.status).toHaveBeenCalledWith(400);
-	expect (res.json).toHaveBeenCalledWith({ message: 'Order must be ASC or DESC' });
+  expect(res.json).toHaveBeenCalledWith({
+    message: 'Order must be ASC or DESC',
+  });
 });
 
 it('should return a 404 status code', async () => {
-	const req = {
-		params: {
-			id: 1,
-		},
-	};
-	const res = {
-		status: jest.fn((x) => x),
-		json: jest.fn(),
-	};
+  const req = {
+    params: {
+      id: 1,
+    },
+  };
+  const res = {
+    status: jest.fn((x) => x),
+    json: jest.fn(),
+  };
 
-	await getTodoById(req, res);
+  await getTodoById(req, res);
 
-	expect(Todo.findByPk).toHaveBeenCalledTimes(1);
-	expect(res.status).toHaveBeenCalledWith(404);
-	expect (res.json).toHaveBeenCalledWith({ message: 'Todo not found' });
+  expect(Todo.findByPk).toHaveBeenCalledTimes(1);
+  expect(res.status).toHaveBeenCalledWith(404);
+  expect(res.json).toHaveBeenCalledWith({ message: 'Todo not found' });
 });
 
 it('should return todo', async () => {
-	const req = {
-		params: {
-			id: 1,
-		},
-	};
-	const res = {
-		status: jest.fn((x) => x),
-		json: jest.fn(),
-	};
-	Todo.findByPk.mockResolvedValue({ id: 1, text: 'test', done: false, createdAt: new Date(), updatedAt: null });
+  const req = {
+    params: {
+      id: 1,
+    },
+  };
+  const res = {
+    status: jest.fn((x) => x),
+    json: jest.fn(),
+  };
+  Todo.findByPk.mockResolvedValue({
+    id: 1,
+    text: 'test',
+    done: false,
+    createdAt: new Date(),
+    updatedAt: null,
+  });
 
-	await getTodoById(req, res);
-	expect(Todo.findByPk).toHaveBeenCalledTimes(1);
-	expect(res.status).toHaveBeenCalledWith(200);
-	expect(res.json).toHaveBeenCalledWith({ id: 1, text: 'test', done: false, createdAt: new Date(), updatedAt: null });
+  await getTodoById(req, res);
+  expect(Todo.findByPk).toHaveBeenCalledTimes(1);
+  expect(res.status).toHaveBeenCalledWith(200);
+  expect(res.json).toHaveBeenCalledWith({
+    id: 1,
+    text: 'test',
+    done: false,
+    createdAt: new Date(),
+    updatedAt: null,
+  });
 });

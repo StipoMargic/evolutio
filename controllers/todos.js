@@ -3,7 +3,7 @@ const { Todo } = require('../models/models');
 const getAllTodos = async (req, res) => {
   if (req.query.order !== undefined) {
     if (req.query.order !== 'ASC' && req.query.order !== 'DESC') {
-      res.status(400)
+      res.status(400);
       res.json({ message: 'Order must be ASC or DESC' });
       return;
     }
@@ -19,7 +19,7 @@ const getAllTodos = async (req, res) => {
 const getTodoById = async (req, res) => {
   const todo = await Todo.findByPk(req.params.id);
   if (!todo) {
-    res.status(404)
+    res.status(404);
     res.json({ message: 'Todo not found' });
     return;
   }
@@ -45,7 +45,7 @@ const createTodo = async (req, res) => {
 const updateTodo = async (req, res) => {
   const todo = await Todo.findByPk(req.params.id);
   if (!todo) {
-    res.status(404)
+    res.status(404);
     res.json({ message: 'Todo not found' });
     return;
   }
