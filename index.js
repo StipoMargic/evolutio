@@ -1,9 +1,11 @@
+/* eslint-disable no-console */
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const { connection } = require('./config/db');
 const { Todo } = require('./models/models');
+const { getAllTodos, getTodoById, updateTodo, createTodo } = require('./controllers/todos');
 
 const init = async () => {
   try {
@@ -24,56 +26,13 @@ const port = 8000;
 
 app.use('/api', api);
 
-api.get('/todos', async (req, res) => {
-  if (req.query.order !== undefined) {
-    if (req.query.order !== 'ASC' && req.query.order !== 'DESC') {
-      res.status(400).json({ message: 'Order must be ASC or DESC' });
-      return;
-    }
-  }
-  const todos = await Todo.findAll({
-    order: [['createdAt', req.query.order || 'DESC']],
-  });
-  return res.json(todos);
-});
+api.get('/todos', getAllTodos);
 
-api.get('/todos/:id', async (req, res) => {
-  const todo = await Todo.findByPk(req.params.id);
-  if (!todo) {
-    res.status(404).json({ message: 'Todo not found' });
-    return;
-  }
+api.get('/todos/:id', getTodoById);
 
-  return res.json(todo);
-});
+api.post('/todos', createTodo);
 
-api.post('/todos', async (req, res) => {
-  const {text} = req.body;
-  if (!text) {
-    res.status(400).json({ message: 'Text is required' });
-    return;
-  }
-
-  const todo = await Todo.create({ text });
-  return res.status(201).json(todo);
-});
-
-api.put('/todos/:id', async (req, res) => {
-  const todo = await Todo.findByPk(req.params.id);
-  if (!todo) {
-    res.status(404).json({ message: 'Todo not found' });
-    return;
-  }
-
-  const { text, done } = req.body;
-  if (text.trim() === '' || done === undefined) {
-    res.status(400).json({ message: 'Text and done are required' });
-    return;
-  }
-
-  todo.update({ text, done, updatedAt: new Date() });
-  return res.json(todo);
-});
+api.put('/todos/:id', updateTodo);
 
 app.listen(port, () => {
   console.log(`Todo app listening at http://localhost:${port}`);
