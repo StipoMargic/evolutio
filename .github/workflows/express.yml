@@ -31,5 +31,8 @@ jobs:
         username: ${{ secrets.VM_USER }}
         password: ${{ secrets.VM_KEY }}
         script: |
+          cd /opt/evolutio-backend
           git pull
+          git checkout node/express
+          npm ci
           docker compose up --build -d
