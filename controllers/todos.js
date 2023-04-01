@@ -11,7 +11,7 @@ const getAllTodos = async (req, res) => {
     order: [['createdAt', req.query.order || 'DESC']],
   });
   res.json(todos);
-}
+};
 
 const getTodoById = async (req, res) => {
   const todo = await Todo.findByPk(req.params.id);
@@ -21,20 +21,20 @@ const getTodoById = async (req, res) => {
   }
 
   res.json(todo);
-}
+};
 
 const createTodo = async (req, res) => {
-  const {text} = req.body;
+  const { text } = req.body;
   if (!text) {
     res.status(400).json({ message: 'Text is required' });
     return;
   }
 
   const todo = await Todo.create({ text });
-  
-  res.status(201).json(todo);
-}
 
+  res.status(201);
+  res.json(todo);
+};
 
 const updateTodo = async (req, res) => {
   const todo = await Todo.findByPk(req.params.id);
@@ -50,7 +50,7 @@ const updateTodo = async (req, res) => {
   }
 
   todo.update({ text, done, updatedAt: new Date() });
-  
+
   res.json(todo);
 };
 

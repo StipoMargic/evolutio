@@ -1,11 +1,17 @@
 {
   "env": {
+    "jest": true,
     "browser": true,
     "commonjs": true,
     "es2021": true
   },
   "extends": ["airbnb-base", "prettier"],
-  "overrides": [],
+  "overrides": [
+    {
+      "files": ["**/*.spec.js", "**/*.spec.jsx"],
+      "env": {}
+    }
+  ],
   "parserOptions": {
     "ecmaVersion": "latest"
   },
