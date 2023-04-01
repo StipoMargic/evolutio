@@ -2,3 +2,4 @@ node_modules/
 /app/var/
 /app/vendor/
 /app/
+/mysql/
