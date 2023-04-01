@@ -79,6 +79,13 @@ it('should return a 404 status code', async () => {
 });
 
 it('should return todo', async () => {
+  const found = {
+    id: 1,
+    text: 'test',
+    done: false,
+    createdAt: new Date(),
+    updatedAt: null,
+  };
   const req = {
     params: {
       id: 1,
@@ -86,24 +93,12 @@ it('should return todo', async () => {
   };
   const res = {
     status: jest.fn((x) => x),
-    json: jest.fn(),
+    json: jest.fn(() => found),
   };
-  Todo.findByPk.mockResolvedValue({
-    id: 1,
-    text: 'test',
-    done: false,
-    createdAt: new Date(),
-    updatedAt: null,
-  });
+  Todo.findByPk.mockResolvedValue(found);
 
   await getTodoById(req, res);
   expect(Todo.findByPk).toHaveBeenCalledTimes(1);
   expect(res.status).toHaveBeenCalledWith(200);
-  expect(res.json).toHaveBeenCalledWith({
-    id: 1,
-    text: 'test',
-    done: false,
-    createdAt: new Date(),
-    updatedAt: null,
-  });
+  expect(res.json).toHaveBeenCalledWith(found);
 });
