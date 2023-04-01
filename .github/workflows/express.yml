@@ -29,6 +29,5 @@ jobs:
         # ssh host
         host: ${{ secrets.VM_IP }}
         username: ${{ secrets.VM_USER }}
-        key: ${{ secrets.VM_KEY }}
-        script: |
-          git pull
+        password: ${{ secrets.VM_KEY }}
+        script: whoami
