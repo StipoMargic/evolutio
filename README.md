@@ -63,3 +63,15 @@ HINT: Build could fail because of the server low resources.
 
 You can visit backend portion of the app on http://165.232.121.
 71:8000/api/todos . It is running on a DigitalOcean droplet.
+
+## Tools used
+
+- NodeJS
+- Express
+- MariaDB
+- Docker
+- Sequelize
+- Jest
+- Github Actions
+- Eslint with Airbnb style guide
+- Prettier
