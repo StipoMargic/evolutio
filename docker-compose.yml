@@ -12,9 +12,9 @@ services:
     ports:
       - '3306:3306'
     volumes:
-      - ./mysql:/var/lib/mysql
+      - db-data:/var/lib/mysql
   php:
-    container_name: php
+    container_name: php-evolutio-todo
     build:
       dockerfile: ./php/Dockerfile
     volumes:
@@ -34,3 +34,6 @@ services:
     depends_on:
       - php
       - database
+
+volumes:
+    db-data:
