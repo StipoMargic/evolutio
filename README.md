@@ -22,7 +22,7 @@ Alter is set to true, so it will drop the table and create it again.
 ## Endpoints
 
 ```bash
-GET /api/todos # Get all todos. You can add query params ?order=asc or ?order=desc to sort the todos by creation date. Default is desc.
+GET /api/todos # Get all todos. You can add query params ?order=ASC or ?order=DESC to sort the todos by creation date. Default is DESC. DESC or ASC must be capitalized.
 GET /api/todos/:id # Get a todo by id
 POST /api/todos # Create a todo.
 PUT /api/todos/:id # Update a todo by id
@@ -61,8 +61,7 @@ server and run the docker compose command to run the app.
 You can check full workflow in .github/workflows/express.yml. 
 HINT: Build could fail because of the server low resources.
 
-You can visit backend portion of the app on http://165.232.121.
-71:8000/api/todos . It is running on a DigitalOcean droplet.
+You can visit backend portion of the app on http://165.232.121.71:8000/api/todos . It is running on a DigitalOcean droplet.
 
 ## Tools used
 
