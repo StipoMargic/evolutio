@@ -1,4 +1,4 @@
-var/
-vendor
-.env
-/node_modules/
+*
+!.github
+!.gitignore
+!README.md
