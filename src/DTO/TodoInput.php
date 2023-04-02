@@ -3,5 +3,5 @@
 namespace App\DTO;
 
 class TodoInput {
-  public $text;
+  public string $text;
 }
